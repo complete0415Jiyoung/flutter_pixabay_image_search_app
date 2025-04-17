@@ -1,10 +1,10 @@
-import 'package:flutter_pixabay_image_search_app/data/dto/image_dto.dart';
-import 'package:flutter_pixabay_image_search_app/domain/model/image.dart';
+import 'package:flutter_pixabay_image_search_app/data/dto/photo_dto.dart';
+import 'package:flutter_pixabay_image_search_app/domain/model/photo.dart';
 
-extension ImageMapper on ImageDTO {
-  Image toImage() {
-    return Image(
-      id: id ?? -1,
+extension PhotoMapper on PhotoDTO {
+  Photo toImage() {
+    return Photo(
+      id: photo ?? -1,
       previewURL: previewURL ?? '',
       largeImageURL: largeImageURL ?? '',
       userName: user ?? '',
