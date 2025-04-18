@@ -4,16 +4,22 @@ class Pixabay {
   final String key;
   final String lang;
   final String imageType;
-  final String qurey;
+  final String? qurey;
+  final int? id;
 
   Pixabay({
     String? key,
     this.lang = 'ko',
     this.imageType = 'photo',
-    required this.qurey,
+    this.qurey,
+    this.id,
   }) : key = key ?? ApiKey.pixabayKey;
 
-  String toQuery() {
-    return '?key=$key&lang=$lang&image_type=$imageType&q=$qurey}';
+  String toQuery(String qurey) {
+    return '?key=$key&lang=$lang&image_type=$imageType&q=$qurey';
+  }
+
+  String toId(int id) {
+    return '?key=$key&lang=$lang&image_type=$imageType&id=$id';
   }
 }
