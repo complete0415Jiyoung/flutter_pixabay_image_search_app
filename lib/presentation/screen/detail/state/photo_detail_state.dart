@@ -4,15 +4,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../domain/model/photo.dart';
 
-part 'image_state.freezed.dart';
+part 'photo_detail_state.freezed.dart';
 
 @freezed
-class ImageState with _$ImageState {
+class PhotoDetailState with _$PhotoDetailState {
   final Photo? photo;
   final bool isLoading;
   final String errorMessage;
 
-  const ImageState({
+  const PhotoDetailState({
     this.photo,
     this.isLoading = false,
     this.errorMessage = '',

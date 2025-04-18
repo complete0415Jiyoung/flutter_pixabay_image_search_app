@@ -10,6 +10,8 @@ class Photo with _$Photo {
   final int id;
   final String previewURL;
   final String largeImageURL;
+  final double imageWidth;
+  final double imageHeight;
   final String userName;
   final List<String> tags;
 
@@ -19,5 +21,7 @@ class Photo with _$Photo {
     required this.previewURL,
     required this.largeImageURL,
     required this.userName,
+    required this.imageWidth,
+    required this.imageHeight,
   });
 }

@@ -1,54 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pixabay_image_search_app/core/ui/color_styles.dart';
 import 'package:flutter_pixabay_image_search_app/core/ui/text_styles.dart';
-import 'package:flutter_pixabay_image_search_app/presentation/screen/detail/image_detail_view_model.dart';
+import 'package:flutter_pixabay_image_search_app/presentation/component/skeleton_image.dart';
+import 'package:flutter_pixabay_image_search_app/presentation/screen/detail/photo_detail_view_model.dart';
 import 'package:go_router/go_router.dart';
 
-class ImageDetailPage extends StatefulWidget {
+class ImageDetailPage extends StatelessWidget {
   final int id;
-  final ImageDetailViewModel viewModel;
+  final PhotoDetailViewModel viewModel;
 
   const ImageDetailPage({super.key, required this.id, required this.viewModel});
 
   @override
-  State<ImageDetailPage> createState() => _ImageDetailPageState();
-}
-
-class _ImageDetailPageState extends State<ImageDetailPage> {
-  @override
-  void initState() {
-    super.initState();
-    // 상태 변경 감지해서 setState() 호출
-    widget.viewModel.addListener(_onViewModelChanged);
-    widget.viewModel.fetchImage(widget.id);
-  }
-
-  @override
-  void dispose() {
-    // 리스너 해제
-    widget.viewModel.removeListener(_onViewModelChanged);
-    super.dispose();
-  }
-
-  void _onViewModelChanged() {
-    setState(() {}); // 상태가 바뀔 때 UI 갱신
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final state = widget.viewModel.state;
+    // 처음 한 번만 수행되게 Future.microtask 사용
+    Future.microtask(() => viewModel.fetchImage(id));
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.go('/image'),
+          onPressed: () => context.pop(),
         ),
         backgroundColor: Colors.white,
       ),
       body: ListenableBuilder(
-        listenable: widget.viewModel,
+        listenable: viewModel,
         builder: (_, __) {
+          final state = viewModel.state;
+
           if (state.isLoading) {
             return Center(
               child: Column(
@@ -58,7 +38,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
                     color: ColorStyle.gray4,
                     strokeWidth: 3,
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Text(
                     "불러오는 중...",
                     style: AppTextStyles.smallRegular(color: ColorStyle.gray3),
@@ -71,8 +51,8 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
           if (state.errorMessage.isNotEmpty) {
             return Center(
               child: Text(
-                widget.viewModel.state.errorMessage,
-                style: TextStyle(color: Colors.red),
+                state.errorMessage,
+                style: const TextStyle(color: Colors.red),
               ),
             );
           }
@@ -91,13 +71,10 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.network(
-                    photo.largeImageURL,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                SkeletonImage(
+                  imageUrl: photo.largeImageURL,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
                 const SizedBox(height: 16),
                 if (photo.tags.isNotEmpty) ...[
@@ -126,8 +103,6 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
                       ],
                     ),
                   ),
-                ],
-                if (photo.tags.isNotEmpty) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Wrap(
@@ -153,7 +128,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
                                   child: Text(
                                     tag.trim(),
                                     style: AppTextStyles.smallRegular(
-                                      color: ColorStyle.primary100, // 글자색
+                                      color: ColorStyle.primary100,
                                     ),
                                   ),
                                 ),

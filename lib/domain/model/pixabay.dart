@@ -1,4 +1,4 @@
-import 'package:flutter_pixabay_image_search_app/core/api_key.dart';
+import 'package:flutter_pixabay_image_search_app/core/api/api_key.dart';
 
 class Pixabay {
   final String key;

@@ -1,19 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pixabay_image_search_app/core/routing/routes.dart';
 import 'package:flutter_pixabay_image_search_app/core/ui/color_styles.dart';
 import 'package:flutter_pixabay_image_search_app/core/ui/text_styles.dart';
-import 'package:flutter_pixabay_image_search_app/presentation/screen/search/image_list_view_model.dart';
+import 'package:flutter_pixabay_image_search_app/presentation/screen/search/photo_search_view_model.dart';
+
 import 'package:go_router/go_router.dart';
 
-class ImageListPage extends StatefulWidget {
-  final ImageListViewModel viewModel;
-  const ImageListPage({super.key, required this.viewModel});
+class PhotoSearchScreen extends StatefulWidget {
+  final PhotoSearchViewModel viewModel;
+  const PhotoSearchScreen({super.key, required this.viewModel});
 
   @override
-  State<ImageListPage> createState() => _ImageListPageState();
+  State<PhotoSearchScreen> createState() => _PhotoSearchScreenState();
 }
 
-class _ImageListPageState extends State<ImageListPage> {
+class _PhotoSearchScreenState extends State<PhotoSearchScreen> {
+  TextEditingController? _searchController; // nullable 상태로 선언
+
+  @override
+  void initState() {
+    super.initState();
+
+    // TextEditingController 초기화 상태를 확인하고 설정
+    final currentKeyword = widget.viewModel.state.currentKeyword;
+    _searchController = TextEditingController(
+      text: currentKeyword.isNotEmpty ? currentKeyword : null,
+    );
+
+    // 초기 검색어가 있으면 자동으로 검색 실행
+    if (currentKeyword.isNotEmpty) {
+      _searchImages(currentKeyword);
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchController?.dispose(); // 초기화가 확실치 않으므로 null 체크
+    super.dispose();
+  }
+
+  void _searchImages(String query) {
+    if (query.isNotEmpty) {
+      widget.viewModel.fetchImages(query);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +62,9 @@ class _ImageListPageState extends State<ImageListPage> {
                 children: [
                   // Search bar
                   TextField(
+                    controller: _searchController,
                     onSubmitted: (value) {
-                      if (value.isNotEmpty) {
-                        widget.viewModel.fetchImages(value);
-                      }
+                      _searchImages(value);
                     },
                     decoration: InputDecoration(
                       hintText: '검색어를 입력하세요',
@@ -84,15 +113,19 @@ class _ImageListPageState extends State<ImageListPage> {
                     )
                   else if (widget.viewModel.state.errorMessage.isNotEmpty)
                     Center(
-                      child: Text(
-                        widget.viewModel.state.errorMessage,
-                        style: TextStyle(color: Colors.red),
+                      child: SizedBox(
+                        child: Text(
+                          widget.viewModel.state.errorMessage,
+                          style: AppTextStyles.normalRegular(
+                            color: ColorStyle.gray3,
+                          ),
+                        ),
                       ),
                     )
-                  else if (widget.viewModel.state.imageList == null)
+                  else if (widget.viewModel.state.imageList.isEmpty)
                     Center(
                       child: Text(
-                        '이미지를 찾을 수 없습니다🥲',
+                        '이미지를 검색해주세요',
                         style: AppTextStyles.normalRegular(
                           color: ColorStyle.gray3,
                         ),
@@ -101,7 +134,7 @@ class _ImageListPageState extends State<ImageListPage> {
                   else
                     Expanded(
                       child: GridView.builder(
-                        itemCount: widget.viewModel.state.imageList!.length,
+                        itemCount: widget.viewModel.state.imageList.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           mainAxisSpacing: 16,
@@ -109,11 +142,10 @@ class _ImageListPageState extends State<ImageListPage> {
                           childAspectRatio: 1,
                         ),
                         itemBuilder: (context, index) {
-                          final image =
-                              widget.viewModel.state.imageList![index];
+                          final image = widget.viewModel.state.imageList[index];
                           return GestureDetector(
                             onTap: () {
-                              context.goNamed(
+                              context.pushNamed(
                                 'imageDetail',
                                 pathParameters: {'id': image.id.toString()},
                               );

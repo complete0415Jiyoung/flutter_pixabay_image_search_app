@@ -9,6 +9,8 @@ extension PhotoMapper on PhotoDTO {
       largeImageURL: largeImageURL ?? '',
       userName: user ?? '',
       tags: _parseTags(tags),
+      imageWidth: previewWidth?.toDouble() ?? 0.0,
+      imageHeight: previewHeight?.toDouble() ?? 0.0,
     );
   }
 

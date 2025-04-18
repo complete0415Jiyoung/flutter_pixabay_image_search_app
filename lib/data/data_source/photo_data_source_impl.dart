@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_pixabay_image_search_app/core/api_key.dart';
+import 'package:flutter_pixabay_image_search_app/core/api/api_key.dart';
 import 'package:flutter_pixabay_image_search_app/data/data_source/photo_data_source.dart';
 import 'package:flutter_pixabay_image_search_app/data/dto/photo_dto.dart';
 import 'package:flutter_pixabay_image_search_app/domain/model/pixabay.dart';
