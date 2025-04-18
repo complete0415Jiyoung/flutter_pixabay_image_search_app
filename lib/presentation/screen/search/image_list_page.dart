@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pixabay_image_search_app/core/routing/routes.dart';
 import 'package:flutter_pixabay_image_search_app/core/ui/color_styles.dart';
 import 'package:flutter_pixabay_image_search_app/core/ui/text_styles.dart';
-import 'package:flutter_pixabay_image_search_app/presentation/screen/image_list_view_model.dart';
+import 'package:flutter_pixabay_image_search_app/presentation/screen/search/image_list_view_model.dart';
 import 'package:go_router/go_router.dart';
 
 class ImageListPage extends StatefulWidget {

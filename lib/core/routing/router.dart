@@ -1,10 +1,10 @@
 import 'package:flutter_pixabay_image_search_app/core/routing/routes.dart';
 import 'package:flutter_pixabay_image_search_app/data/data_source/photo_data_source_impl.dart';
 import 'package:flutter_pixabay_image_search_app/data/repository/photo_repository_impl.dart';
-import 'package:flutter_pixabay_image_search_app/presentation/screen/image_detail_page.dart';
-import 'package:flutter_pixabay_image_search_app/presentation/screen/image_detail_view_model.dart';
-import 'package:flutter_pixabay_image_search_app/presentation/screen/image_list_page.dart';
-import 'package:flutter_pixabay_image_search_app/presentation/screen/image_list_view_model.dart';
+import 'package:flutter_pixabay_image_search_app/presentation/screen/detail/image_detail_page.dart';
+import 'package:flutter_pixabay_image_search_app/presentation/screen/detail/image_detail_view_model.dart';
+import 'package:flutter_pixabay_image_search_app/presentation/screen/search/image_list_page.dart';
+import 'package:flutter_pixabay_image_search_app/presentation/screen/search/image_list_view_model.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(

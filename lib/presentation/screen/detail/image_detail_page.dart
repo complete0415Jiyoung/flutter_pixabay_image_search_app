@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pixabay_image_search_app/core/ui/color_styles.dart';
 import 'package:flutter_pixabay_image_search_app/core/ui/text_styles.dart';
-import 'package:flutter_pixabay_image_search_app/presentation/screen/image_detail_view_model.dart';
+import 'package:flutter_pixabay_image_search_app/presentation/screen/detail/image_detail_view_model.dart';
 import 'package:go_router/go_router.dart';
 
 class ImageDetailPage extends StatefulWidget {

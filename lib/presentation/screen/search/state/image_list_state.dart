@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../domain/model/photo.dart';
+import '../../../../domain/model/photo.dart';
 
 part 'image_list_state.freezed.dart';
 
