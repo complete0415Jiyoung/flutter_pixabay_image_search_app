@@ -11,12 +11,10 @@ class PhotoSearchState with _$PhotoSearchState {
   final List<Photo> imageList;
   final bool isLoading;
   final String errorMessage;
-  final String currentKeyword;
 
   const PhotoSearchState({
     this.imageList = const [],
     this.isLoading = false,
     this.errorMessage = '',
-    this.currentKeyword = '',
   });
 }

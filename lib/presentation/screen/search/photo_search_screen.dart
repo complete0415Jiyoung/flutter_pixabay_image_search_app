@@ -14,36 +14,6 @@ class PhotoSearchScreen extends StatefulWidget {
 }
 
 class _PhotoSearchScreenState extends State<PhotoSearchScreen> {
-  TextEditingController? _searchController; // nullable 상태로 선언
-
-  @override
-  void initState() {
-    super.initState();
-
-    // TextEditingController 초기화 상태를 확인하고 설정
-    final currentKeyword = widget.viewModel.state.currentKeyword;
-    _searchController = TextEditingController(
-      text: currentKeyword.isNotEmpty ? currentKeyword : null,
-    );
-
-    // 초기 검색어가 있으면 자동으로 검색 실행
-    if (currentKeyword.isNotEmpty) {
-      _searchImages(currentKeyword);
-    }
-  }
-
-  @override
-  void dispose() {
-    _searchController?.dispose(); // 초기화가 확실치 않으므로 null 체크
-    super.dispose();
-  }
-
-  void _searchImages(String query) {
-    if (query.isNotEmpty) {
-      widget.viewModel.fetchImages(query);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,9 +32,8 @@ class _PhotoSearchScreenState extends State<PhotoSearchScreen> {
                 children: [
                   // Search bar
                   TextField(
-                    controller: _searchController,
                     onSubmitted: (value) {
-                      _searchImages(value);
+                      widget.viewModel.fetchImages(value);
                     },
                     decoration: InputDecoration(
                       hintText: '검색어를 입력하세요',

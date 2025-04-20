@@ -13,11 +13,7 @@ class PhotoSearchViewModel with ChangeNotifier {
   PhotoSearchState get state => _state;
 
   Future<void> fetchImages(String query) async {
-    _state = _state.copyWith(
-      isLoading: true,
-      errorMessage: '',
-      currentKeyword: query, // 현재 키워드 업데이트
-    );
+    _state = _state.copyWith(isLoading: true, errorMessage: '');
     notifyListeners();
 
     final result = await _searchPhotosUseCase.execute(query);
